@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Generative UI Chat
+
+An AI-powered chat interface that generates and renders live React components inline. Ask the AI to create UI elements, and watch them render in real-time within the conversation.
+
+## Features
+
+- 🎨 **Live Component Generation** - AI generates React components that render immediately
+- ⚡ **Interactive Components** - Full support for state, effects, timers, and animations
+- 🎭 **Creative Designs** - AI uses modern Tailwind CSS with gradients, shadows, and animations
+- 🔒 **Sandboxed Execution** - Components run in isolated scope using react-runner
+- 💬 **Chat Interface** - Clean, modern chat UI to interact with the AI
+
+## Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **UI**: React 19, Tailwind CSS 4
+- **AI**: OpenAI 
+- **Component Renderer**: react-runner
+- **Runtime**: Bun
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Bun installed
+- OpenAI API key
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
+bun install
+```
+
+3. Create a `.env` file with your OpenAI API key:
+
+```env
+OPENAI_API_KEY=your_api_key_here
+```
+
+4. Run the development server:
+
+```bash
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Simply ask the AI to create UI components:
 
-## Learn More
+- "Create an animated button"
+- "Make a counter with gradient styling"
+- "Build a toast notification component"
+- "Design a loading spinner"
 
-To learn more about Next.js, take a look at the following resources:
+The AI will generate React code wrapped in `<draw>` tags, which gets executed and rendered inline in the chat.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+├── page.tsx              # Main chat page
+├── layout.tsx            # Root layout
+├── globals.css           # Global styles
+└── api/chat/route.ts     # OpenAI API endpoint
 
-## Deploy on Vercel
+components/
+├── Chat.tsx              # Chat container with state
+├── ChatInput.tsx         # Message input form
+├── MessageList.tsx       # Renders message list
+├── Message.tsx           # Single message with parser
+└── ComponentPreview.tsx  # react-runner wrapper
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+lib/
+└── parser.ts             # Parses <draw> blocks from AI response
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## How It Works
+
+1. User sends a message requesting a UI component
+2. OpenAI generates React code wrapped in `<draw>` tags
+3. Parser extracts the code from the response
+4. react-runner executes the code in a sandboxed environment
+5. Component renders live in the chat interface
+
+## Available Scope
+
+Components have access to:
+
+- React hooks: `useState`, `useEffect`, `useRef`, `useMemo`, `useCallback`
+- Timers: `setTimeout`, `setInterval`, `clearTimeout`, `clearInterval`
+- Console: `console.log` for debugging
+- Tailwind CSS for styling
+
+## Development
+
+Build for production:
+
+```bash
+bun run build
+```
+
+Start production server:
+
+```bash
+bun start
+```
+
+## License
+
+MIT
